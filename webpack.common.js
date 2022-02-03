@@ -5,6 +5,7 @@ const { extendDefaultPlugins } = require("svgo");
 const { ProvidePlugin } = require("webpack");
 const json5 = require("json5");
 
+
 module.exports = {
   // https://webpack.js.org/concepts/entry-points/
   entry: {
@@ -16,12 +17,7 @@ module.exports = {
       import: "./src/js/index.js",
       filename: "js/index.[contenthash].js",
       dependOn: "main",
-    },
-    about: {
-      import: "./src/js/about.js",
-      filename: "js/about.[contenthash].js",
-      dependOn: "main",
-    },
+    }
   },
 
   // https://webpack.js.org/concepts/output/
@@ -35,14 +31,14 @@ module.exports = {
   plugins: [
     // https://webpack.js.org/plugins/html-webpack-plugin/
     new HtmlWebpackPlugin({
-      template: "./src/index.html",
-      inject: "body",
+      template: "!!handlebars-loader!./src/index.hbs",
+      inject: 'body',
       chunks: ["main", "index"],
       filename: "index.html",
     }),
     new HtmlWebpackPlugin({
-      template: "./src/about.html",
-      inject: "body",
+      template: "!!handlebars-loader!./src/about.hbs",
+      inject: 'body',
       chunks: ["main", "about"],
       filename: "about.html",
     }),
@@ -92,14 +88,7 @@ module.exports = {
   // https://webpack.js.org/concepts/modules/
   module: {
     rules: [
-      {
-        test: /\.ejs$/,
-        use: [
-          {
-            loader: "ejs-webpack-loader",
-          },
-        ],
-      },
+      { test: /\.hbs$/, loader: "handlebars-loader" },
       {
         test: /\.less$/i,
         use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],

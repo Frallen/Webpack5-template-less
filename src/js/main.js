@@ -1,1 +1,2 @@
-import("./../css/main.less")
+import "../css/main.less";
+Handlebars.registerPartial('header', '{{prefix}}');
