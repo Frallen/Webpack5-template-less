@@ -1,10 +1,8 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const ImageMinimizerWebpackPlugin = require("image-minimizer-webpack-plugin");
-const { extendDefaultPlugins } = require("svgo");
 const { ProvidePlugin } = require("webpack");
 const json5 = require("json5");
-
+const path = require("path");
 
 module.exports = {
   // https://webpack.js.org/concepts/entry-points/
@@ -13,17 +11,18 @@ module.exports = {
       import: "./src/js/main.js",
       filename: "js/main.[contenthash].js",
     },
-    index: {
-      import: "./src/js/index.js",
-      filename: "js/index.[contenthash].js",
+
+    auth: {
+      import: "./src/js/auth.js",
+      filename: "js/auth.[contenthash].js",
       dependOn: "main",
-    }
+    },
   },
 
   // https://webpack.js.org/concepts/output/
   output: {
-    path: `${__dirname}/dist`,
-    publicPath: "/",
+    path: path.resolve(__dirname, "dist"),
+    
     clean: true,
   },
 
@@ -31,51 +30,19 @@ module.exports = {
   plugins: [
     // https://webpack.js.org/plugins/html-webpack-plugin/
     new HtmlWebpackPlugin({
-      template: "!!handlebars-loader!./src/index.hbs",
-      inject: 'body',
-      chunks: ["main", "index"],
+      template: "./src/index.html",
+      inject: "body",
+      //бандлы скриптов для страниц
+      chunks: ["main", "auth"],
+      ///
       filename: "index.html",
     }),
+
     new HtmlWebpackPlugin({
-      template: "!!handlebars-loader!./src/about.hbs",
-      inject: 'body',
-      chunks: ["main", "about"],
-      filename: "about.html",
-    }),
-
-    // https://webpack.js.org/plugins/mini-css-extract-plugin/
-    new MiniCssExtractPlugin({
-      filename: "css/[name].[contenthash].css",
-    }),
-
-    // https://webpack.js.org/plugins/image-minimizer-webpack-plugin/
-    new ImageMinimizerWebpackPlugin({
-      minimizerOptions: {
-        // Lossless optimization with custom option
-        plugins: [
-          ["gifsicle", { interlaced: true }],
-          ["jpegtran", { progressive: true }],
-          ["optipng", { optimizationLevel: 5 }],
-          // Svgo configuration here https://github.com/svg/svgo#configuration
-          [
-            "svgo",
-            {
-              plugins: extendDefaultPlugins([
-                {
-                  name: "removeViewBox",
-                  active: false,
-                },
-                {
-                  name: "addAttributesToSVGElement",
-                  params: {
-                    attributes: [{ xmlns: "http://www.w3.org/2000/svg" }],
-                  },
-                },
-              ]),
-            },
-          ],
-        ],
-      },
+      template: "./src/step1.html",
+      inject: "body",
+      chunks: ["main", "auth", "step1"],
+      filename: "step1.html",
     }),
 
     // https://webpack.js.org/plugins/provide-plugin/
@@ -83,12 +50,24 @@ module.exports = {
       $: "jquery",
       jQuery: "jquery",
     }),
+    // https://webpack.js.org/plugins/mini-css-extract-plugin/
+    new MiniCssExtractPlugin({
+      filename: "css/[name].[contenthash].css",
+    }),
   ],
 
   // https://webpack.js.org/concepts/modules/
   module: {
     rules: [
-      { test: /\.hbs$/, loader: "handlebars-loader" },
+      {
+        test: /\.ejs$/,
+        use: [
+          {
+            loader: "ejs-webpack-loader",
+          },
+        ],
+      },
+
       {
         test: /\.less$/i,
         use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
@@ -105,16 +84,14 @@ module.exports = {
         test: /\.(jpe?g|png|gif|svg)$/i,
         type: "asset/resource",
         generator: {
-          filename: "img/[hash][ext]",
+          filename: "./img/[hash][ext]",
         },
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: "asset/resource",
         generator: {
-          filename: "fonts/[name][ext]",
-        },
-        use: {
-          loader: "url-loader", // Use url-loader when change generator filename
+          filename: "./fonts/[name][ext][query]",
         },
       },
       {

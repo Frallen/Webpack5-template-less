@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./img/tab.ico" />
+    <title>OncoTriage</title>
+  </head>
+  <body>
+    <%= require('./component/_header.ejs')() %>
+    <%=require('./component/_auth.ejs')() %>
+    <div class="main-container">
+      <div class="main-container-services-grid">
+        <a
+          href="step1.html"
+          class="main-container-services-grid-firstitem main-container-services-grid-item"
+        >
+          <h3 class="main-container-services-grid-item-title">
+            Заголовок сервиса в две строки выглядит так
+          </h3>
+          <p class="main-container-services-grid-item-text">
+            Поэтому сервисы с длинным названием лучше помещать в крупные блоки
+          </p>
+        </a>
+        <a
+          href=""
+          class="main-container-services-grid-seconditem main-container-services-grid-item"
+        >
+          <h3 class="main-container-services-grid-item-title">
+            Заголовок сервиса в две строки выглядит так
+          </h3>
+          <p class="main-container-services-grid-item-text">
+            Поэтому сервисы с длинным названием лучше помещать в крупные блоки
+          </p>
+        </a>
+        <a
+          href=""
+          class="main-container-services-grid-thirditem main-container-services-grid-item"
+        >
+          <h3 class="main-container-services-grid-item-title">
+            Заголовок сервиса
+          </h3>
+          <p class="main-container-services-grid-item-text">
+            Подзаголовок с пояснительным текстом на несколько строк
+          </p>
+        </a>
+        <a
+          href=""
+          class="main-container-services-grid-fouritem main-container-services-grid-item"
+        >
+          <h3 class="main-container-services-grid-item-title">
+            Заголовок сервиса
+          </h3>
+          <p class="main-container-services-grid-item-text">
+            Подзаголовок с пояснительным текстом на несколько строк
+          </p>
+        </a>
+        <a
+          href=""
+          class="main-container-services-grid-fiveitem main-container-services-grid-item"
+        >
+          <h3 class="main-container-services-grid-item-title">
+            Заголовок сервиса
+          </h3>
+          <p class="main-container-services-grid-item-text">
+            Подзаголовок с пояснительным текстом на несколько строк
+          </p>
+        </a>
+        <a
+          href=""
+          class="main-container-services-grid-sixitem main-container-services-grid-item"
+        >
+          <h3 class="main-container-services-grid-item-title">
+            Заголовок сервиса в две строки выглядит так
+          </h3>
+          <p class="main-container-services-grid-item-text">
+            Поэтому сервисы с длинным названием лучше помещать в крупные блоки
+          </p>
+        </a>
+        <a
+          href=""
+          class="main-container-services-grid-sevenitem main-container-services-grid-item"
+        >
+          <h3 class="main-container-services-grid-item-title">
+            Заголовок сервиса в две строки выглядит так
+          </h3>
+          <p class="main-container-services-grid-item-text">
+            Поэтому сервисы с длинным названием лучше помещать в крупные блоки
+          </p>
+        </a>
+      </div>
+      <a href="#" class="main-container-ShowMore">Показать еще</a>
+      <%= require('./component/_footer.ejs')() %>
+    </div>
+  </body>
+</html>
