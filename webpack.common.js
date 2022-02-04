@@ -33,16 +33,18 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./src/index.html",
       inject: "body",
-      chunks: ["main", "index"],
+      //бандлы скриптов для страниц
+      chunks: ["main"],
+      ///
       filename: "index.html",
     }),
-    new HtmlWebpackPlugin({
-      template: "./src/about.html",
-      inject: "body",
-      chunks: ["main", "about"],
-      filename: "about.html",
-    }),
 
+    new HtmlWebpackPlugin({
+      template: "./src/step2.html",
+      inject: "body",
+      chunks: ["main", "step2"],
+      filename: "step2.html",
+    }),
     // https://webpack.js.org/plugins/mini-css-extract-plugin/
     new MiniCssExtractPlugin({
       filename: "css/[name].[contenthash].css",
@@ -53,7 +55,7 @@ module.exports = {
       $: "jquery",
       jQuery: "jquery",
     }),
-   /* new CopyPlugin({
+    /* new CopyPlugin({
       patterns: [
         { from: path.resolve(__dirname, "./src/fonts/"), to: "dist/fonts" },
         { from: path.resolve(__dirname + "./src/img/"), to: "dist/img" },
