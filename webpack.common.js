@@ -3,7 +3,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { ProvidePlugin } = require("webpack");
 const json5 = require("json5");
 const path = require("path");
-const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   // https://webpack.js.org/concepts/entry-points/
@@ -13,17 +12,17 @@ module.exports = {
       filename: "js/main.[contenthash].js",
     },
 
-    /*  about: {
-      import: "./src/js/about.js",
-      filename: "js/about.[contenthash].js",
+    auth: {
+      import: "./src/js/auth.js",
+      filename: "js/auth.[contenthash].js",
       dependOn: "main",
-    },*/
+    },
   },
 
   // https://webpack.js.org/concepts/output/
   output: {
     path: path.resolve(__dirname, "dist"),
-    publicPath: "/",
+
     clean: true,
   },
 
@@ -34,20 +33,16 @@ module.exports = {
       template: "./src/index.html",
       inject: "body",
       //бандлы скриптов для страниц
-      chunks: ["main"],
+      chunks: ["main", "auth"],
       ///
       filename: "index.html",
     }),
 
     new HtmlWebpackPlugin({
-      template: "./src/step2.html",
+      template: "./src/step1.html",
       inject: "body",
-      chunks: ["main", "step2"],
-      filename: "step2.html",
-    }),
-    // https://webpack.js.org/plugins/mini-css-extract-plugin/
-    new MiniCssExtractPlugin({
-      filename: "css/[name].[contenthash].css",
+      chunks: ["main", "auth", "step1"],
+      filename: "step1.html",
     }),
 
     // https://webpack.js.org/plugins/provide-plugin/
@@ -55,12 +50,10 @@ module.exports = {
       $: "jquery",
       jQuery: "jquery",
     }),
-    /* new CopyPlugin({
-      patterns: [
-        { from: path.resolve(__dirname, "./src/fonts/"), to: "dist/fonts" },
-        { from: path.resolve(__dirname + "./src/img/"), to: "dist/img" },
-      ],
-    }),*/
+    // https://webpack.js.org/plugins/mini-css-extract-plugin/
+    new MiniCssExtractPlugin({
+      filename: "css/[name].[contenthash].css",
+    }),
   ],
 
   // https://webpack.js.org/concepts/modules/
@@ -90,16 +83,14 @@ module.exports = {
         test: /\.(jpe?g|png|gif|svg)$/i,
         type: "asset/resource",
         generator: {
-          filename: "img/[hash][ext]",
+          filename: "./../img/[hash][ext]",
         },
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: "asset/resource",
         generator: {
-          filename: "fonts/[name][ext]",
-        },
-        use: {
-          loader: "url-loader", // Use url-loader when change generator filename
+          filename: "./../fonts/[name][ext]",
         },
       },
       {
