@@ -1,9 +1,9 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const ImageMinimizerWebpackPlugin = require("image-minimizer-webpack-plugin");
-const { extendDefaultPlugins } = require("svgo");
 const { ProvidePlugin } = require("webpack");
 const json5 = require("json5");
+const path = require("path");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   // https://webpack.js.org/concepts/entry-points/
@@ -12,21 +12,17 @@ module.exports = {
       import: "./src/js/main.js",
       filename: "js/main.[contenthash].js",
     },
-    index: {
-      import: "./src/js/index.js",
-      filename: "js/index.[contenthash].js",
-      dependOn: "main",
-    },
-    about: {
+
+    /*  about: {
       import: "./src/js/about.js",
       filename: "js/about.[contenthash].js",
       dependOn: "main",
-    },
+    },*/
   },
 
   // https://webpack.js.org/concepts/output/
   output: {
-    path: `${__dirname}/dist`,
+    path: path.resolve(__dirname, "dist"),
     publicPath: "/",
     clean: true,
   },
@@ -52,41 +48,17 @@ module.exports = {
       filename: "css/[name].[contenthash].css",
     }),
 
-    // https://webpack.js.org/plugins/image-minimizer-webpack-plugin/
-    new ImageMinimizerWebpackPlugin({
-      minimizerOptions: {
-        // Lossless optimization with custom option
-        plugins: [
-          ["gifsicle", { interlaced: true }],
-          ["jpegtran", { progressive: true }],
-          ["optipng", { optimizationLevel: 5 }],
-          // Svgo configuration here https://github.com/svg/svgo#configuration
-          [
-            "svgo",
-            {
-              plugins: extendDefaultPlugins([
-                {
-                  name: "removeViewBox",
-                  active: false,
-                },
-                {
-                  name: "addAttributesToSVGElement",
-                  params: {
-                    attributes: [{ xmlns: "http://www.w3.org/2000/svg" }],
-                  },
-                },
-              ]),
-            },
-          ],
-        ],
-      },
-    }),
-
     // https://webpack.js.org/plugins/provide-plugin/
     new ProvidePlugin({
       $: "jquery",
       jQuery: "jquery",
     }),
+   /* new CopyPlugin({
+      patterns: [
+        { from: path.resolve(__dirname, "./src/fonts/"), to: "dist/fonts" },
+        { from: path.resolve(__dirname + "./src/img/"), to: "dist/img" },
+      ],
+    }),*/
   ],
 
   // https://webpack.js.org/concepts/modules/
