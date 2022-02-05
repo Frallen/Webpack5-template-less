@@ -1,7 +1,4 @@
 import "./../css/main.less"
-import "./../fonts/GothamPro.eot"
-import "./../fonts/GothamPro.ttf"
-import "./../fonts/GothamPro.woff"
 
 const helpbadge = document.getElementById("helpbadgestky");
 // плавающий хедер

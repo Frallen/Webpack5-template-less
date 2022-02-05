@@ -22,7 +22,11 @@ module.exports = {
   // https://webpack.js.org/concepts/output/
   output: {
     path: path.resolve(__dirname, "dist"),
-    
+    // This path is IMPORTANT
+    // to load fonts and images
+    publicPath: ".",
+    //
+    assetModuleFilename: "./img/[name].[ext]",
     clean: true,
   },
 
@@ -67,7 +71,6 @@ module.exports = {
           },
         ],
       },
-
       {
         test: /\.less$/i,
         use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
@@ -83,15 +86,12 @@ module.exports = {
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         type: "asset/resource",
-        generator: {
-          filename: "./img/[hash][ext]",
-        },
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: "asset/resource",
         generator: {
-          filename: "./fonts/[name][ext][query]",
+          filename: "./fonts/[name][ext]",
         },
       },
       {
