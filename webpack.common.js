@@ -11,12 +11,12 @@ module.exports = {
       import: "./src/js/main.js",
       filename: "js/main.[contenthash].js",
     },
-
+    /*
     auth: {
       import: "./src/js/auth.js",
       filename: "js/auth.[contenthash].js",
       dependOn: "main",
-    },
+    },*/
   },
 
   // https://webpack.js.org/concepts/output/
@@ -24,9 +24,8 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     // This path is IMPORTANT
     // to load fonts and images
-    publicPath: ".",
+    publicPath: "/",
     //
-    assetModuleFilename: "./img/[name].[ext]",
     clean: true,
   },
 
@@ -42,12 +41,12 @@ module.exports = {
       filename: "index.html",
     }),
 
-    new HtmlWebpackPlugin({
+    /* new HtmlWebpackPlugin({
       template: "./src/step1.html",
       inject: "body",
       chunks: ["main", "auth", "step1"],
       filename: "step1.html",
-    }),
+    }),*/
 
     // https://webpack.js.org/plugins/provide-plugin/
     new ProvidePlugin({
@@ -86,6 +85,9 @@ module.exports = {
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         type: "asset/resource",
+        generator: {
+          filename: "./img/[name][ext]",
+        },
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
